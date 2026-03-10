@@ -194,24 +194,6 @@ export default function App() {
         @media (max-width: 768px) {
           .wa-float { bottom: 20px !important; right: 16px !important; }
         }
-        .sticky-cta-mobile { display: none; }
-        @media (max-width: 768px) {
-          .sticky-cta-mobile {
-            display: flex;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 80;
-            padding: 12px 16px;
-            background: rgba(17,17,17,0.95);
-            border-top: 2px solid rgba(234,88,12,0.3);
-            gap: 10px;
-            justify-content: center;
-            align-items: center;
-          }
-          .sticky-cta-mobile a { min-height: 48px; }
-        }
         section { scroll-margin-top: 80px; }
         .nav-blur { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         .nav-desktop { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
@@ -221,7 +203,6 @@ export default function App() {
         @media (max-width: 768px) {
           .nav-desktop { display: none; }
           .nav-mobile-btn { display: flex; }
-          main { padding-bottom: 80px; }
         }
         @media (min-width: 769px) {
           .nav-dropdown { display: none !important; }
@@ -659,12 +640,6 @@ export default function App() {
       </footer>
 
       </main>
-
-      {/* Sticky CTA mobile */}
-      <div className="sticky-cta-mobile">
-        <a href={whatsappUrl} target="_blank" rel="noreferrer" className="btn-interact btn-primary" style={{ ...btnPrimary, flex: 1, maxWidth: 200 }}>Richiedi Preventivo</a>
-        <a href={telUrl} className="btn-interact btn-outline" style={{ ...btnSecondary, flex: 1, maxWidth: 160 }}>Chiama</a>
-      </div>
 
       {/* WhatsApp fisso: appare dopo 3s, pulse ogni 5s, z-index 900 */}
       <a
