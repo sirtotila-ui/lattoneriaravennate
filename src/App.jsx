@@ -8,8 +8,8 @@ const WHATSAPP = "3342281990";
 
 const whatsappUrl = `https://wa.me/39${PHONE}?text=${encodeURIComponent("Buongiorno, vorrei un preventivo")}`;
 const telUrl = `tel:+39${PHONE}`;
-const MAPS_ADDRESS = "Via degli Spreti 101, Ravenna";
-const MAPS_EMBED_URL = "https://www.google.com/maps?q=Via+degli+Spreti+101,+Ravenna,+Italy&output=embed";
+const MAPS_ADDRESS = "Via Naviglio, 22, 48123 Ravenna RA";
+const MAPS_EMBED_URL = "https://www.google.com/maps?q=Via%20Naviglio%2C%2022%2C%2048123%20Ravenna%20RA&output=embed";
 const MAPS_LINK_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(MAPS_ADDRESS)}`;
 
 const faqData = [
@@ -42,6 +42,14 @@ const recensioni = [
   { testo: "Rimozione amianto e rifacimento tetto completo. Lavoro grosso fatto con professionalità. Cantiere sempre in ordine e tempi rispettati. Ottimo rapporto qualità/prezzo.", nome: "Marco L.", piattaforma: "Google", stelle: "5" },
 ];
 
+const portfolioItems = [
+  { titolo: "Terrazza e parapetti", desc: "Terrazza con ringhiere e struttura esterna.", img: "/images/lavoro-terrazza.png" },
+  { titolo: "Canale di gronda in rame", desc: "Dettaglio canale di gronda in rame su ponteggio.", img: "/images/lavoro-gronda-rame.png" },
+  { titolo: "Comignolo con cappello in rame", desc: "Cappello in rame su comignolo in muratura.", img: "/images/lavoro-comignolo-rame.png" },
+  { titolo: "Tetto in lavorazione", desc: "Tegole accatastate su copertura durante il lavoro.", img: "/images/lavoro-cantiere-tegole.png" },
+  { titolo: "Cantiere su abitazione", desc: "Struttura con ponteggi e area di cantiere.", img: "/images/lavoro-cantiere-casa.png" },
+];
+
 const tagColor = (tag) => {
   if (tag === "principale" || tag === "popular") return "#EA580C";
   if (tag === "premium") return "#C8A97E";
@@ -63,6 +71,7 @@ export default function App() {
   const [waVisible, setWaVisible] = useState(false);
   const mainRef = useRef(null);
   const heroStatsRef = useRef(null);
+  const portfolioTrackRef = useRef(null);
 
   // Smooth scroll con offset 80px e aggiornamento hash
   const scrollTo = (id) => {
@@ -195,6 +204,63 @@ export default function App() {
           .wa-float { bottom: 20px !important; right: 16px !important; }
         }
         section { scroll-margin-top: 80px; }
+        .portfolio-shell { max-width: 1000px; margin: 0 auto; }
+        .portfolio-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+        .portfolio-actions { display: none; gap: 10px; }
+        .portfolio-btn {
+          width: 44px;
+          height: 44px;
+          border-radius: 10px;
+          border: 1px solid rgba(234,88,12,0.2);
+          background: rgba(255,255,255,0.04);
+          color: #fff;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+        @media (hover: hover) {
+          .portfolio-actions { display: flex; }
+          .portfolio-btn:hover { border-color: rgba(234,88,12,0.35); background: rgba(255,255,255,0.06); }
+        }
+        .portfolio-track {
+          display: flex;
+          gap: 16px;
+          overflow-x: auto;
+          padding: 6px 2px 12px;
+          scroll-snap-type: x mandatory;
+          -webkit-overflow-scrolling: touch;
+        }
+        .portfolio-track::-webkit-scrollbar { height: 8px; }
+        .portfolio-track::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 999px; }
+        .portfolio-card {
+          scroll-snap-align: start;
+          flex: 0 0 78%;
+        }
+        @media (min-width: 769px) {
+          .portfolio-card { flex-basis: 320px; }
+        }
+        .portfolio-media {
+          width: 100%;
+          aspect-ratio: 16/10;
+          border-radius: 8px;
+          overflow: hidden;
+          border: 1px solid rgba(234,88,12,0.1);
+          background: #111111;
+        }
+        .portfolio-media img { width: 100%; height: 100%; display: block; object-fit: cover; }
+        .portfolio-placeholder {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          padding: 14px;
+          color: rgba(255,255,255,0.35);
+          font-size: 0.95rem;
+          letter-spacing: 0.01em;
+        }
         .nav-blur { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         .nav-desktop { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
         .nav-mobile-btn { display: none; background: none; border: none; color: #fff; padding: 8px; cursor: pointer; min-height: 48px; min-width: 48px; align-items: center; justify-content: center; }
@@ -231,6 +297,7 @@ export default function App() {
           <div className="nav-desktop">
             <button type="button" onClick={() => scrollTo("chi-siamo")} className="btn-interact" style={navLink}>Chi siamo</button>
             <button type="button" onClick={() => scrollTo("servizi")} className="btn-interact" style={navLink}>Servizi</button>
+            <button type="button" onClick={() => scrollTo("lavori")} className="btn-interact" style={navLink}>Lavori</button>
             <button type="button" onClick={() => scrollTo("recensioni")} className="btn-interact" style={navLink}>Recensioni</button>
             <button type="button" onClick={() => scrollTo("faq")} className="btn-interact" style={navLink}>FAQ</button>
             <button type="button" onClick={() => scrollTo("contatti")} className="btn-interact" style={navLink}>Contatti</button>
@@ -255,6 +322,7 @@ export default function App() {
         <div className={`nav-dropdown ${menuOpen ? "open" : ""}`}>
           <button type="button" onClick={() => scrollTo("chi-siamo")} className="btn-interact" style={{ ...navLink, textAlign: "left", padding: "12px 0", minHeight: 48 }}>Chi siamo</button>
           <button type="button" onClick={() => scrollTo("servizi")} className="btn-interact" style={{ ...navLink, textAlign: "left", padding: "12px 0", minHeight: 48 }}>Servizi</button>
+          <button type="button" onClick={() => scrollTo("lavori")} className="btn-interact" style={{ ...navLink, textAlign: "left", padding: "12px 0", minHeight: 48 }}>Lavori</button>
           <button type="button" onClick={() => scrollTo("recensioni")} className="btn-interact" style={{ ...navLink, textAlign: "left", padding: "12px 0", minHeight: 48 }}>Recensioni</button>
           <button type="button" onClick={() => scrollTo("faq")} className="btn-interact" style={{ ...navLink, textAlign: "left", padding: "12px 0", minHeight: 48 }}>FAQ</button>
           <button type="button" onClick={() => scrollTo("contatti")} className="btn-interact" style={{ ...navLink, textAlign: "left", padding: "12px 0", minHeight: 48 }}>Contatti</button>
@@ -305,7 +373,7 @@ export default function App() {
         >
           <span className="hero-word" style={{ display: "inline-block", animationDelay: "0.3s" }}>Il</span>{" "}
           <span className="hero-word" style={{ display: "inline-block", animationDelay: "0.38s" }}>Tuo</span>{" "}
-          <span className="hero-word" style={{ display: "inline-block", animationDelay: "0.46s" }}>Tetto.</span>
+          <span className="hero-word" style={{ display: "inline-block", animationDelay: "0.46s" }}>Tetto</span>
         </h1>
         <h1
           style={{
@@ -320,7 +388,7 @@ export default function App() {
         >
           <span className="hero-word" style={{ display: "inline-block", animationDelay: "0.54s" }}>In</span>{" "}
           <span className="hero-word" style={{ display: "inline-block", animationDelay: "0.62s" }}>Mani</span>{" "}
-          <span className="hero-word" style={{ display: "inline-block", animationDelay: "0.7s" }}>Sicure.</span>
+          <span className="hero-word" style={{ display: "inline-block", animationDelay: "0.7s" }}>Sicure</span>
         </h1>
         <div className="hero-sub-cta">
           <p style={{ maxWidth: 560, margin: "0 auto 28px", fontSize: "1rem", color: "rgba(255,255,255,0.6)" }}>
@@ -334,13 +402,33 @@ export default function App() {
             📞 +39 {PHONE_DISPLAY}
           </a>
         </div>
-        <div ref={heroStatsRef} style={{ display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "center" }}>
+        <div ref={heroStatsRef} style={{ display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "center", marginBottom: 18 }}>
           <div data-reveal-item style={{ transitionDelay: "0ms" }}><strong style={{ color: "#FFFFFF", display: "block", fontSize: "1.25rem" }}>Ravenna</strong><span style={{ color: "rgba(255,255,255,0.3)" }}>e Provincia</span></div>
           <div data-reveal-item style={{ transitionDelay: "100ms" }}><strong style={{ color: "#FFFFFF", display: "block", fontSize: "1.25rem" }}>{heroStat100}%</strong><span style={{ color: "rgba(255,255,255,0.3)" }}>Su Misura</span></div>
           <div data-reveal-item style={{ transitionDelay: "200ms" }}><strong style={{ color: "#FFFFFF", display: "block", fontSize: "1.25rem" }}>Gratis</strong><span style={{ color: "rgba(255,255,255,0.3)" }}>Sopralluogo</span></div>
         </div>
-        <div style={{ ...placeholderImg("#1A1A1A", "280px", "160px"), transitionDelay: "300ms" }} data-reveal-item>
-          [Foto tetto con grondaie nuove in rame, vista dall&apos;alto]
+        <div
+          data-reveal-item
+          style={{
+            transitionDelay: "300ms",
+            marginTop: 10,
+            background: "#1A1A1A",
+            border: "1px solid rgba(234,88,12,0.1)",
+            borderRadius: 8,
+            width: "min(560px, 100%)",
+            height: 220,
+            overflow: "hidden",
+            display: "flex",
+            alignItems: "stretch",
+            justifyContent: "stretch",
+          }}
+        >
+          <img
+            src="/images/hero-tetto.png"
+            alt="Copertura tetto: intervento recente"
+            style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
+            loading="eager"
+          />
         </div>
       </section>
 
@@ -363,8 +451,13 @@ export default function App() {
               Lavoriamo nel settore della lattoneria edile a Ravenna e provincia. Ogni lavoro che facciamo è su misura: dalla progettazione alla piegatura della lamiera, dalla sagomatura alla posa in opera. Utilizziamo materiali di prima qualità e tecniche consolidate. Non subappaltiamo, non improvvisiamo. Il nostro team segue ogni cantiere dall&apos;inizio alla fine, garantendo qualità e puntualità. Il tetto è la protezione della tua casa. Noi lo trattiamo come merita.
             </p>
           </div>
-          <div data-reveal-item style={{ transitionDelay: "400ms", ...placeholderImg("#111111", "100%", "280px") }}>
-            [Foto operaio su tetto che installa grondaia in rame]
+          <div data-reveal-item style={{ transitionDelay: "400ms", ...placeholderImg("#111111", "100%", "280px"), padding: 0, overflow: "hidden" }}>
+            <img
+              src="/images/operaio-tetto.png"
+              alt="Operaio su tetto durante lavorazione"
+              style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
+              loading="lazy"
+            />
           </div>
         </div>
       </section>
@@ -474,6 +567,74 @@ export default function App() {
               <p style={{ margin: 0, fontSize: 16, color: "rgba(255,255,255,0.6)" }}>{item.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Lavori migliori (carousel) */}
+      <section id="lavori" data-reveal style={{ background: "#111111", padding: "64px 20px", borderTop: "1px solid rgba(234,88,12,0.1)" }}>
+        <div className="portfolio-shell">
+          <div className="portfolio-head">
+            <div>
+              <div data-reveal-item style={{ transitionDelay: "0ms", fontSize: "0.75rem", color: "#EA580C", fontWeight: 700, letterSpacing: "0.1em", marginBottom: 8 }}>
+                LAVORI MIGLIORI
+              </div>
+              <h2 data-reveal-item style={{ transitionDelay: "100ms", color: "#FFFFFF", fontWeight: 700, textTransform: "uppercase", margin: 0, fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>
+                Alcuni Interventi Recenti
+              </h2>
+              <p data-reveal-item style={{ transitionDelay: "200ms", margin: "10px 0 0", color: "rgba(255,255,255,0.6)", fontSize: 16 }}>
+                Scorri per vedere una selezione dei lavori. Su mobile puoi swipe; su desktop usa le frecce.
+              </p>
+            </div>
+            <div className="portfolio-actions" data-reveal-item style={{ transitionDelay: "300ms" }}>
+              <button
+                type="button"
+                className="btn-interact portfolio-btn"
+                aria-label="Scorri a sinistra"
+                onClick={() => portfolioTrackRef.current?.scrollBy({ left: -360, behavior: "smooth" })}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
+              </button>
+              <button
+                type="button"
+                className="btn-interact portfolio-btn"
+                aria-label="Scorri a destra"
+                onClick={() => portfolioTrackRef.current?.scrollBy({ left: 360, behavior: "smooth" })}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
+              </button>
+            </div>
+          </div>
+
+          <div ref={portfolioTrackRef} className="portfolio-track">
+            {portfolioItems.map((it, i) => (
+              <article
+                key={i}
+                className="card-hover portfolio-card"
+                data-reveal-item
+                style={{
+                  transitionDelay: `${300 + i * 100}ms`,
+                  background: "#1A1A1A",
+                  border: "1px solid rgba(234,88,12,0.1)",
+                  borderRadius: 8,
+                  padding: 16,
+                }}
+              >
+                <div className="portfolio-media">
+                  {it.img ? (
+                    <img src={it.img} alt={it.titolo} loading="lazy" />
+                  ) : (
+                    <div className="portfolio-placeholder">[Foto lavoro: {it.titolo}]</div>
+                  )}
+                </div>
+                <div style={{ marginTop: 12 }}>
+                  <div style={{ color: "#FFFFFF", fontWeight: 700, textTransform: "uppercase", fontSize: "0.95rem", marginBottom: 6 }}>
+                    {it.titolo}
+                  </div>
+                  <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 16 }}>{it.desc}</div>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -631,7 +792,7 @@ export default function App() {
             {EMAIL !== "DA INSERIRE" && <a href={`mailto:${EMAIL}`} style={{ color: "rgba(255,255,255,0.7)" }}>{EMAIL}</a>}
           </p>
           <p style={{ margin: "0 0 24px", fontSize: "0.9rem", color: "rgba(255,255,255,0.4)" }}>
-            Via degli Spreti 101, Ravenna · Lun-Ven 7:30-17:30 · Sabato su appuntamento
+            Via Naviglio, 22, 48123 Ravenna RA · Lun-Ven 7:30-17:30 · Sabato su appuntamento
           </p>
           <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.15)", margin: 0 }}>
             Sito realizzato da ECF Media
