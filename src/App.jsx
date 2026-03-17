@@ -537,39 +537,6 @@ export default function App() {
         </p>
       </section>
 
-      {/* Perché noi */}
-      <section id="perche-noi" data-reveal style={{ background: "#1A1A1A", padding: "64px 20px" }}>
-        <h2 data-reveal-item style={{ transitionDelay: "0ms", color: "#FFFFFF", fontWeight: 700, textTransform: "uppercase", textAlign: "center", margin: "0 0 40px", fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>
-          Perché Scegliere Lattoneria Ravennate
-        </h2>
-        <div style={{ maxWidth: 1000, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24 }} className="responsive-grid-4">
-          {[
-            { emoji: "🔧", titolo: "Lavoro Su Misura", desc: "Ogni pezzo è sagomato e piegato su misura per il tuo edificio. Niente soluzioni standard." },
-            { emoji: "🏗️", titolo: "Tutto il Cantiere Interno", desc: "Non subappaltiamo. Il nostro team segue ogni fase, dalla progettazione alla posa in opera." },
-            { emoji: "📋", titolo: "Sopralluogo Gratuito", desc: "Veniamo a vedere il lavoro, misuriamo, e ti facciamo un preventivo dettagliato. Senza impegno." },
-            { emoji: "🛡️", titolo: "Materiali di Qualità", desc: "Lavoriamo rame, alluminio, zinco titanio, acciaio inox. Solo materiali certificati e duraturi." },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="card-hover"
-              data-reveal-item
-              style={{
-                transitionDelay: `${100 + i * 100}ms`,
-                background: "#111111",
-                border: "1px solid rgba(234,88,12,0.1)",
-                borderRadius: 8,
-                padding: 24,
-                textAlign: "center",
-              }}
-            >
-              <div style={{ fontSize: "2rem", marginBottom: 12 }}>{item.emoji}</div>
-              <h3 style={{ color: "#FFFFFF", fontWeight: 700, textTransform: "uppercase", margin: "0 0 8px", fontSize: "1rem" }}>{item.titolo}</h3>
-              <p style={{ margin: 0, fontSize: 16, color: "rgba(255,255,255,0.6)" }}>{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* Lavori migliori (carousel) */}
       <section id="lavori" data-reveal style={{ background: "#111111", padding: "64px 20px", borderTop: "1px solid rgba(234,88,12,0.1)" }}>
         <div className="portfolio-shell">
